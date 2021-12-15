@@ -1,28 +1,37 @@
 import random
+from string import ascii_lowercase
 
 words = 'python', 'java', 'kotlin', 'javascript'
 game_word = random.choice(words)
-attempts = 8
+lives = 8
 shadow_word = "-" * len(game_word)
+chars_set = set()
 
 print("H A N G M A N")
-while attempts != 0:
+while lives:
     print(f"\n{shadow_word}")
     char = input("Input a letter: ")
-    if char in game_word:
+    if len(char) != 1:
+        print("You should input a single letter")
+        continue
+    elif char not in ascii_lowercase:
+        print("Please enter a lowercase English letter")
+        continue
+    elif char in game_word and char not in shadow_word:
         dictionary = {pos: value for pos, value in enumerate(game_word) if value == char}
-        if char not in shadow_word:
-            for pos, value in dictionary.items():
-                shadow_word = ''.join((shadow_word[:pos], value, shadow_word[pos + 1:]))
-        else:
-            print("No improvements")
-            attempts -= 1
+        for pos, value in dictionary.items():
+            shadow_word = ''.join((shadow_word[:pos], value, shadow_word[pos + 1:]))
     else:
-        print("That letter doesn't appear in the word")
-        attempts -= 1
+        if char in chars_set:
+            print("You've already guessed this letter")
+            continue
+        else:
+            print("That letter doesn't appear in the word")
+        lives -= 1
+    chars_set.add(char)
+
     if "-" not in shadow_word:
         print("You guessed the word!\nYou survived!")
         break
-    if attempts == 0:
+    if lives == 0:
         print("You lost!")
-
