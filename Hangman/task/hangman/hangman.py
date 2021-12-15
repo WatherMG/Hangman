@@ -2,15 +2,16 @@ import random
 from string import ascii_lowercase
 
 words = 'python', 'java', 'kotlin', 'javascript'
-game_word = random.choice(words)
-lives = 8
-shadow_word = "-" * len(game_word)
-chars_set = set()
 running = True
 
 while running:
     print("H A N G M A N")
+    game_word = random.choice(words)
+    shadow_word = "-" * len(game_word)
+    lives = 8
+    chars_set = set()
     user_input = input('Type "play" to play the game, "exit" to quit: ')
+
     if user_input == "play":
         while lives:
             print(f"\n{shadow_word}")
